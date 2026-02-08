@@ -1,0 +1,139 @@
+# MT25009
+# Graduate Systems (CSE638) – PA02
+# Network I/O Primitives Analysis using perf
+
+==================================================
+OVERVIEW
+==================================================
+
+This assignment experimentally studies the cost of
+data movement in network I/O by implementing:
+
+A1 – Two-copy socket communication (send/recv)
+A2 – One-copy optimized communication (sendmsg + iovec)
+A3 – Zero-copy communication (MSG_ZEROCOPY)
+
+Each version is implemented as a multithreaded
+TCP client–server program and profiled using perf.
+
+
+==================================================
+FILES INCLUDED
+==================================================
+
+Source Code
+-----------
+MT25009_Part_A1_Server.c
+MT25009_Part_A1_Client.c
+MT25009_Part_A2_Server.c
+MT25009_Part_A2_Client.c
+MT25009_Part_A3_Server.c
+MT25009_Part_A3_Client.c
+
+Build
+-----
+Makefile
+
+Experiments
+-----------
+MT25009_Part_B_results.csv
+run_bench.sh
+
+Plots
+-----
+MT25009_Part_D_Plots.py
+(values are hardcoded as required in assignment)
+
+Report
+------
+MT25009_Part_E_Report.pdf
+
+
+==================================================
+COMPILATION
+==================================================
+
+make
+
+This generates:
+
+A1S A1C
+A2S A2C
+A3S A3C
+
+
+==================================================
+RUNNING PROGRAMS
+==================================================
+
+Open TWO terminals.
+
+Terminal 1 (Server):
+--------------------
+./A1S
+(or ./A2S or ./A3S)
+
+Terminal 2 (Client):
+--------------------
+./A1C <threads> <size> <duration>
+
+Example:
+./A1C 4 4096 5
+
+
+==================================================
+PERF PROFILING
+==================================================
+
+Example:
+
+perf stat -e cycles,cache-misses,L1-dcache-load-misses,context-switches \
+./A1C 4 4096 5
+
+
+==================================================
+AUTOMATED EXPERIMENTS
+==================================================
+
+chmod +x run_bench.sh
+./run_bench.sh
+
+Outputs:
+results.csv
+
+
+==================================================
+PLOTTING
+==================================================
+
+(As required, values are hardcoded in python file)
+
+python3 MT25009_Part_D_Plots.py
+
+This generates plots during demo.
+
+
+==================================================
+AI USAGE DECLARATION
+==================================================
+
+AI assistance was used for:
+• Code structuring guidance
+• Debugging build/runtime issues
+• Bash automation scripting
+• Plot script generation
+• README and report formatting
+
+All code was reviewed and understood before submission.
+
+
+==================================================
+SYSTEM DETAILS
+==================================================
+
+OS: Linux
+Compiler: gcc
+Tool: perf
+Language: C (POSIX sockets + pthreads)
+
+==================================================
